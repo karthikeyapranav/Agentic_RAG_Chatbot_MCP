@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic RAG Chatbot</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="font-inter bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <div class="chatbot-container bg-white rounded-lg shadow-xl w-full max-w-4xl flex flex-col md:flex-row overflow-hidden">
+        <!-- Sidebar for Upload and Controls -->
+        <div class="sidebar bg-gray-50 p-6 md:w-1/3 border-r border-gray-200 flex flex-col justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800 mb-6">Agentic RAG Chatbot</h1>
+
+                <div class="mb-6">
+                    <label for="document-upload" class="block text-sm font-medium text-gray-700 mb-2">Upload Documents</label>
+                    <input type="file" id="document-upload" multiple
+                           class="block w-full text-sm text-gray-500
+                                  file:mr-4 file:py-2 file:px-4
+                                  file:rounded-md file:border-0
+                                  file:text-sm file:font-semibold
+                                  file:bg-indigo-50 file:text-indigo-700
+                                  hover:file:bg-indigo-100"
+                           accept=".pdf,.pptx,.csv,.docx,.txt,.md">
+                    <p class="mt-2 text-xs text-gray-500">Supported formats: PDF, PPTX, CSV, DOCX, TXT, MD</p>
+                    <div id="upload-status" class="mt-2 text-sm"></div>
+                </div>
+
+                <div class="mb-6">
+                    <button id="clear-data-btn" class="w-full bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition duration-150 ease-in-out">
+                        Clear All Data
+                    </button>
+                    <p class="mt-2 text-xs text-gray-500">Clears all uploaded documents and indexed data.</p>
+                </div>
+            </div>
+
+            <div class="text-center text-xs text-gray-400 mt-4">
+                <p>&copy; 2023 Agentic RAG Chatbot. All rights reserved.</p>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-area flex-1 p-6 flex flex-col">
+            <div id="chat-messages" class="flex-1 overflow-y-auto pr-2 mb-4 space-y-4 custom-scrollbar">
+                <!-- Chat messages will be appended here -->
+                <div class="message bot-message">
+                    <div class="message-bubble bg-blue-100 text-blue-800 rounded-lg p-3 shadow-sm max-w-md">
+                        Hello! Upload some documents to get started, then ask me questions about them.
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input-area flex items-center border-t border-gray-200 pt-4">
+                <input type="text" id="user-input" placeholder="Ask a question..."
+                       class="flex-1 border border-gray-300 rounded-md py-2 px-4 mr-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-150 ease-in-out">
+                <button id="send-btn"
+                        class="bg-indigo-600 text-white py-2 px-5 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition duration-150 ease-in-out flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    Send
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loading-modal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-xl flex flex-col items-center">
+            <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+            <p class="text-gray-700 text-lg font-semibold">Processing...</p>
+        </div>
+    </div>
+
+    <!-- Message Box for alerts -->
+    <div id="message-box" class="fixed top-4 right-4 bg-blue-600 text-white px-6 py-3 rounded-md shadow-lg hidden z-50" role="alert">
+        <span id="message-box-text"></span>
+        <button class="ml-4 font-bold" onclick="document.getElementById('message-box').classList.add('hidden')">&times;</button>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+Flask
+python-dotenv
+PyPDF2
+python-pptx
+python-docx
+pandas
+sentence-transformers
+faiss-cpu
+transformers
+torch
